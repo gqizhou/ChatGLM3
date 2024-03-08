@@ -523,8 +523,9 @@ def contains_custom_function(value: str) -> bool:
 if __name__ == "__main__":
     # Load LLM
     tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_PATH, trust_remote_code=True)
-    model = AutoModel.from_pretrained(MODEL_PATH, trust_remote_code=True, device_map="auto").eval()
+    model = AutoModel.from_pretrained(MODEL_PATH, trust_remote_code=True, device_map="auto").quantize(4).cuda()
+    #model = AutoModel.from_pretrained(MODEL_PATH, trust_remote_code=True, device_map="auto").eval()
 
     # load Embedding
-    embedding_model = SentenceTransformer(EMBEDDING_PATH, device="cuda")
+    #embedding_model = SentenceTransformer(EMBEDDING_PATH, device="cuda")
     uvicorn.run(app, host='0.0.0.0', port=8000, workers=1)
