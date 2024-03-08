@@ -143,14 +143,15 @@ def process_chatglm_messages(messages, tools=None):
 
         elif role == "assistant" and func_call is not None:
             for response in content.split("<|assistant|>"):
-                metadata, sub_content = response.split("\n", maxsplit=1)
-                messages.append(
-                    {
-                        "role": role,
-                        "metadata": metadata,
-                        "content": sub_content.strip()
-                    }
-                )
+                if response:
+                    metadata, sub_content = response.split("\n", maxsplit=1)
+                    messages.append(
+                        {
+                            "role": role,
+                            "metadata": metadata,
+                            "content": sub_content.strip()
+                        }
+                    )
         else:
             messages.append({"role": role, "content": content})
     return messages
